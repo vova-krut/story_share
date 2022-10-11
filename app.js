@@ -2,6 +2,7 @@ import express from "express";
 import connectDb from "./config/db.js";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
+import router from "./routes/index.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
@@ -18,6 +19,9 @@ if (process.env.NODE_ENV === "development") {
 app.engine(".hbs", engine({ defaultLayout: "main", extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
+
+//Routes
+app.use("/", router);
 
 connectDb();
 
