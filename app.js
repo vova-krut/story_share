@@ -1,6 +1,7 @@
 import express from "express";
 import connectDb from "./config/db.js";
 import morgan from "morgan";
+import { engine } from "express-handlebars";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
@@ -12,6 +13,11 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
+
+//Handlebars
+app.engine(".hbs", engine({ defaultLayout: "main", extname: ".hbs" }));
+app.set("view engine", ".hbs");
+app.set("views", "./views");
 
 connectDb();
 
