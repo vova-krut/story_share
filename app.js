@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import connectDb from "./config/db.js";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
@@ -19,6 +20,9 @@ if (process.env.NODE_ENV === "development") {
 app.engine(".hbs", engine({ defaultLayout: "main", extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
+
+//Static folder
+app.use(express.static("public"));
 
 //Routes
 app.use("/", router);
