@@ -7,6 +7,7 @@ import session from "express-session";
 import { engine } from "express-handlebars";
 import router from "./routes/index.js";
 import authRouter from "./routes/auth.js";
+import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
@@ -33,6 +34,7 @@ app.use(
         secret: process.env.SECRET_KEY,
         resave: false,
         saveUninitialized: false,
+        store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
     })
 );
 
