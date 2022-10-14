@@ -7,6 +7,7 @@ import session from "express-session";
 import { engine } from "express-handlebars";
 import router from "./routes/index.js";
 import authRouter from "./routes/auth.js";
+import storiesRouter from "./routes/stories.js";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
@@ -17,6 +18,10 @@ passportConfig(passport);
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+//Body parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 //Logging
 if (process.env.NODE_ENV === "development") {
@@ -48,6 +53,7 @@ app.use(express.static("public"));
 //Routes
 app.use("/", router);
 app.use("/auth", authRouter);
+app.use("/stories", storiesRouter);
 
 connectDb();
 
