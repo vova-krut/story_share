@@ -9,6 +9,7 @@ import router from "./routes/index.js";
 import authRouter from "./routes/auth.js";
 import storiesRouter from "./routes/stories.js";
 import MongoStore from "connect-mongo";
+import { formatDate } from "./helpers/hbs.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
@@ -29,7 +30,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 //Handlebars
-app.engine(".hbs", engine({ defaultLayout: "main", extname: ".hbs" }));
+app.engine(
+    ".hbs",
+    engine({ helpers: { formatDate }, defaultLayout: "main", extname: ".hbs" })
+);
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 
