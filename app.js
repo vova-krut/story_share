@@ -9,7 +9,7 @@ import router from "./routes/index.js";
 import authRouter from "./routes/auth.js";
 import storiesRouter from "./routes/stories.js";
 import MongoStore from "connect-mongo";
-import { formatDate, stripTags, truncate } from "./helpers/hbs.js";
+import { formatDate, stripTags, truncate, editIcon } from "./helpers/hbs.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "development") {
 app.engine(
     ".hbs",
     engine({
-        helpers: { formatDate, stripTags, truncate },
+        helpers: { formatDate, stripTags, truncate, editIcon },
         defaultLayout: "main",
         extname: ".hbs",
     })
@@ -54,6 +54,12 @@ app.use(
 //Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+//Set global variable
+app.use(function (req, res, next) {
+    res.locals.user = req.user || null;
+    return next();
+});
 
 //Static folder
 app.use(express.static("public"));
